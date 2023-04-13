@@ -4,23 +4,28 @@
   <title>ChatGPT on Google Sites</title>
   <script>
     function submitForm(event) {
-      event.preventDefault();
-      const prompt = document.getElementById("prompt").value;
-      const result = document.getElementById("result");
-      const webAppUrl = "https://script.google.com/macros/s/AKfycbx9qCkbmd2aH5AUQ0avx3OxX_0qv745XBurNfNKOVSwE35hOhGLZsZVkfHpQWyInQHk/exec"; // Replace with your web app URL
+  event.preventDefault();
+  const prompt = document.getElementById("prompt").value;
+  const result = document.getElementById("result");
+  const webAppUrl = "https://script.google.com/macros/s/AKfycbx9qCkbmd2aH5AUQ0avx3OxX_0qv745XBurNfNKOVSwE35hOhGLZsZVkfHpQWyInQHk/exec"; // Replace with your web app URL
 
-      result.innerHTML = "Processing...";
+  result.innerHTML = "Processing...";
 
-      fetch(`${webAppUrl}?prompt=${encodeURIComponent(prompt)}`)
-        .then(response => response.text())
-        .then(text => {
-          result.innerHTML = text;
-        })
-        .catch(error => {
-          console.error("Error:", error);
-          result.innerHTML = "An error occurred. Please try again.";
-        });
-    }
+  fetch(`${webAppUrl}?prompt=${encodeURIComponent(prompt)}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(text => {
+      result.innerHTML = text;
+    })
+    .catch(error => {
+      console.error("Error:", error);
+      result.innerHTML = `An error occurred: ${error.message}. Please try again.`;
+    });
+}
   </script>
 </head>
 <body>
