@@ -2,31 +2,30 @@
 <html>
 <head>
   <title>ChatGPTB on Google Sites</title>
-  <script src="chatgpt.js"></script>
-  <script>
+  <script src="chatgpt.js" type="module"></script>
+  <script type="module">
+    import submitForm from './chatgpt.js';
 
-    function submitForm(event) {
-  event.preventDefault();
-  const prompt = document.getElementById("prompt").value;
-  const result = document.getElementById("result");
-  
-  result.innerHTML = "Processing...";
+    window.submitFormHandler = async (event) => {
+      event.preventDefault();
+      const prompt = document.getElementById("prompt").value;
+      const result = document.getElementById("result");
 
-  chatgpt.submitForm(prompt)
-    .then(text => {
-      result.innerHTML = text;
-    })
-    .catch(error => {
-      console.error("Error:", error);
-      result.innerHTML = `An error occurred: ${error.message}. Please try again.`;
-    });
-}
+      result.innerHTML = "Processing...";
 
+      try {
+        const text = await submitForm(prompt);
+        result.innerHTML = text;
+      } catch (error) {
+        console.error("Error:", error);
+        result.innerHTML = `An error occurred: ${error.message}. Please try again.`;
+      }
+    };
   </script>
 </head>
 <body>
   <h1>Ask ChatGPT</h1>
-  <form onsubmit="submitForm(event)">
+  <form onsubmit="submitFormHandler(event)">
     <label for="prompt">Question:</label>
     <input type="text" id="prompt" required />
     <button type="submit">Submit</button>
