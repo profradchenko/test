@@ -1,4 +1,4 @@
-async function submitForm(prompt) {
+export default async function submitForm(prompt) {
   const webAppUrl = "https://script.google.com/macros/s/AKfycbxZsKFZKsdkrruv55HglpbOMtZk5NDWmyoGjxwgb4JxVOOE2FUT6nEBy0RxxfNCvm_g/exec";
   const fetchUrl = `${webAppUrl}?prompt=${encodeURIComponent(prompt)}`;
 
